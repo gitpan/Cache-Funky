@@ -1,0 +1,14 @@
+Build.PL
+Changes
+lib/Cache/Funky.pm
+lib/Cache/Funky/Storage.pm
+lib/Cache/Funky/Storage/Simple.pm
+Makefile.PL
+MANIFEST			This list of files
+README
+t/00.load.t
+t/01.funky.t
+t/perlcritic.t
+t/pod-coverage.t
+t/pod.t
+META.yml
