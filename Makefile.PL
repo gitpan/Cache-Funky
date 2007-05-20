@@ -9,9 +9,10 @@ WriteMakefile(
     ABSTRACT_FROM       => 'lib/Cache/Funky.pm',
     PL_FILES            => {},
     PREREQ_PM => {
-        'Test::More'          => 0,
-        'version'             => 0,
-        'UNIVERSAL::require'  => 0,
+        'Test::More'            => 0,
+        'version'               => 0,
+        'UNIVERSAL::require'    => 0,
+        'Class::Accessor::Fast' => 0,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'Cache-Funky-*' },

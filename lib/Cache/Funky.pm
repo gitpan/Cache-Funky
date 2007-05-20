@@ -5,7 +5,7 @@ use strict qw( subs );
 use Carp;
 use UNIVERSAL::require;
 
-use version; our $VERSION = qv('0.0.3');
+use version; our $VERSION = qv('0.0.4');
 
 sub setup {
     my $class        = shift;

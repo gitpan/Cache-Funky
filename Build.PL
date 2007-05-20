@@ -8,9 +8,10 @@ my $builder = Module::Build->new(
     dist_author         => 'Masahiro Funakoshi <masap@cpan.org>',
     dist_version_from   => 'lib/Cache/Funky.pm',
     requires => {
-        'Test::More'         => 0,
-        'version'            => 0,
-        'UNIVERSAL::require' => 0,
+        'Test::More'            => 0,
+        'version'               => 0,
+        'UNIVERSAL::require'    => 0,
+        'Class::Accessor::Fast' => 0,
     },
     add_to_cleanup      => [ 'Cache-Funky-*' ],
 );
