@@ -5,7 +5,7 @@ use strict qw( subs );
 use Carp;
 use UNIVERSAL::require;
 
-use version; our $VERSION = qv('0.0.4');
+use version; our $VERSION = qv('0.0.5');
 
 sub setup {
     my $class        = shift;
@@ -84,6 +84,7 @@ Cache::Funky - How is simple, convenient cache module?
 
     1;
 
+
     ------
 
     #! perl
@@ -99,11 +100,19 @@ Cache::Funky - How is simple, convenient cache module?
     MyCache->delete(qw/ foo /);
     print MyCache->foo;    # * Tue May  1 21:53:36+? JST 2007 is NOW!
 
+=head1 DESCRIPTION
+
+This module manage where to get orignal data and set it in cache. And when you
+want to update the cache data , only you need to to is delete the cache you
+wanted update.
+
 =head1 METHOD
 
 =head2 setup( 'Storage::*' => $args )
 
-Please set the storage name which you use and the information that the storage class needs.
+Set the storage Module name which you use and the information that the storage class
+needs. You can find Storage module at Cache::Funky::Storage::* .
+
 Please refer to POD of a storage class which information is necessary.
 
 =head2 register( $attribute, $CODE_ref )
@@ -112,7 +121,13 @@ Please set an acquisition method of a attribute and data to register with your c
 
 =head2 delete( $attribute )
 
-Please set the attribute that I want to delete. I can appoint plural attributes. 
+Give the registerd method name then the cache will be deleted. so next time
+you call the method, the cache will be updated. Also you can set array ref as
+parameter to delete multiple cache data.
+
+=head1 SEE ALSO
+
+L<Cache::Funky::Storage>
 
 =head1 AUTHOR
 

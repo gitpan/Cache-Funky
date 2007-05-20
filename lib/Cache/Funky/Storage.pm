@@ -23,6 +23,12 @@ Cache::Funky::Storage - Base Class for Cache::Funky::Storage::*
 
 =head1 DESCRIPTION
 
+When you create Storage class, use base this module.
+
+=head1 How to write Storage Class.
+
+You must have get ,set ,delete methods for your storage module. Read L<Cache::Funky::Storage::Simple> then you will get idea.
+
 =head1 METHODS
 
 =head2 get( $key )
@@ -30,6 +36,10 @@ Cache::Funky::Storage - Base Class for Cache::Funky::Storage::*
 =head2 set( $key, $value )
 
 =head2 delete( $key )
+
+=head1 SEE ALSO
+
+L<Cache::Funky::Storage::Simple>
 
 =head1 AUTHOR
 

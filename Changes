@@ -1,5 +1,8 @@
 Revision history for Cache-Funky
 
+0.0.5  Sun May 20 23:34:13 2007
+       Modifying test script.
+
 0.0.4  Sun May 20 09:46:01 2007
        Modifying Makefile.PL and Build.PL. (add requires module)
 

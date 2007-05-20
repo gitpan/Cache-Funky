@@ -1,6 +1,6 @@
 ---
 name: Cache-Funky
-version: 0.0.4
+version: 0.0.5
 author:
   - 'Masahiro Funakoshi <masap@cpan.org>'
 abstract: 'How is simple, convenient cache module?'
@@ -16,12 +16,12 @@ provides:
   Cache::Funky:
     file: lib/Cache/Funky.pm
     version: !!perl/hash:version
-      original: 0.0.4
+      original: 0.0.5
       qv: 1
       version:
         - 0
         - 0
-        - 4
+        - 5
   Cache::Funky::Storage:
     file: lib/Cache/Funky/Storage.pm
   Cache::Funky::Storage::Simple:
