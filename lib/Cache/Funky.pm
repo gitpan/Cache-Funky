@@ -5,7 +5,7 @@ use strict qw( subs );
 use Carp;
 use UNIVERSAL::require;
 
-use version; our $VERSION = qv('0.0.5');
+our $VERSION = '0.06';
 
 sub setup {
     my $class        = shift;
@@ -35,11 +35,12 @@ sub register {
     *{ $package_attribute }
         = sub {
             my $self = shift;
+            my $id   = shift;
 
             my $data;
-            unless ( $data = $self->_storage->get( $package_attribute ) ) {
-                $data = $code->();
-                $self->_storage->set( $package_attribute, $data );
+            unless ( $data = $self->_storage->get( $package_attribute ,  $id ) ) {
+                $data = $code->( $id );
+                $self->_storage->set( $package_attribute, $data , $id );
             }
 
             return $data;
@@ -47,18 +48,21 @@ sub register {
 }
 
 sub delete {
-    my $self = shift;
-    my $attributes;
-    
-    if ( @_ ) {
-        # * convert args to array ref :-)
-        $attributes = [ @{ @_ > 1 ? [@_] : ref $_[0] ? $_[0] : [$_[0]] } ];
-    }
-    else {
-        croak("you need args of attribute(s)");
-    }
+    my $self        = shift;
+    my $attribute   = shift;
+    my $id          = shift;
 
-    for my $attribute ( @$attributes ) {
+    my $package_attribute = ( ref $self || $self ) .'::'. $attribute;
+    $self->_storage->delete( $package_attribute , $id );
+}
+
+sub deletes {
+    my $self       = shift;
+    my $attributes = shift;
+
+    croak "you need to set attributes keys" unless ref $attributes eq 'ARRAY' ;
+    
+    for my $attribute ( @{ $attributes  } ) {
         my $package_attribute = ( ref $self || $self ) .'::'. $attribute;
         $self->_storage->delete( $package_attribute );
     }
@@ -79,8 +83,9 @@ Cache::Funky - How is simple, convenient cache module?
     use warnings;
     use base qw( Cache::Funky );
     
-    __PACKAGE__->setup( 'Storage::Memcached' => \%memcacged_conf );
+    __PACKAGE__->setup( 'Storage::Memcached' =>  { servers => [ '127.0.0.1:12345' ] });
     __PACKAGE__->register( 'foo', sub { `date` } ); # * date: Tue May  1 21:53:36 JST 2007
+    __PACKAGE__->register( 'boo', sub { shift . '_' . `date` } ); # * date: $id + _Tue May 1 21:53:36 JST 2007
 
     1;
 
@@ -97,8 +102,21 @@ Cache::Funky - How is simple, convenient cache module?
     sleep 10;
     print MyCache->foo;    # * Tue May  1 21:53:36 JST 2007
     
-    MyCache->delete(qw/ foo /);
+    MyCache->delete('foo');
     print MyCache->foo;    # * Tue May  1 21:53:36+? JST 2007 is NOW!
+
+    print MyCache->boo('id1');    # * id1_Tue May  1 21:53:36 JST 2007
+    print MyCache->boo('id2');    # * id2_Tue May  1 21:53:36 JST 2007
+    
+    sleep 10;
+    print MyCache->boo('id1');    # * id1_Tue May  1 21:53:36 JST 2007
+    
+    # only remove id1
+    MyCache->delete('boo', 'id1');
+    print MyCache->boo('id1');    # * id1_Tue May  1 21:53:36+? JST 2007
+    print MyCache->boo('id2');    # * id2_Tue May  1 21:53:36 JST 2007
+
+    MyCache->deletes([qw/foo boo/]);
 
 =head1 DESCRIPTION
 
@@ -119,11 +137,23 @@ Please refer to POD of a storage class which information is necessary.
 
 Please set an acquisition method of a attribute and data to register with your class.
 
-=head2 delete( $attribute )
+=head2 delete( $attribute [,$id])
 
 Give the registerd method name then the cache will be deleted. so next time
-you call the method, the cache will be updated. Also you can set array ref as
-parameter to delete multiple cache data.
+you call the method, the cache will be updated. 
+
+also allow you to have second argument which delete only specific cache which
+has $id as key.
+
+ MyCache->foo( 'key1' );
+ MyCache->foo( 'key2' );
+
+ # only remove key1
+ MyCache->delete( 'foo' , 'key1' );
+
+=head2 deletes( $attributes_ref );
+
+you can set array ref as parameter to delete multiple cache data.
 
 =head1 SEE ALSO
 
@@ -132,6 +162,8 @@ L<Cache::Funky::Storage>
 =head1 AUTHOR
 
 Masahiro Funakoshi  C<< <masap@cpan.org> >>
+
+Tomohiro Teranishi C<< <tomohiro.teranishi@gmail.com> >>
 
 =head1 LICENCE AND COPYRIGHT
 

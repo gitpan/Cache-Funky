@@ -9,23 +9,32 @@ my $_CACHE = {};
 sub get {
     my $s   = shift;
     my $key = shift;
+    my $id  = shift;
 
-    $_CACHE->{$key};
+    return $id ? $_CACHE->{ $key }{ $id } : $_CACHE->{ $key };
 }
 
 sub set {
     my $s     = shift;
     my $key   = shift;
     my $value = shift;
+    my $id    = shift;
 
-    $_CACHE->{$key} = $value;
+    if( $id ) {
+        $_CACHE->{ $key }{ $id } = $value;
+    }
+    else {
+        $_CACHE->{$key} = $value;
+    }
+    return 1;
 }
 
 sub delete {
     my $s   = shift;
     my $key = shift;
+    my $id  = shift;
 
-    delete $_CACHE->{$key};
+    $id ? delete $_CACHE->{ $key }{ $id } : delete $_CACHE->{ $key };
 }
 
 1;
@@ -44,11 +53,11 @@ This is not recommended to be used by your application.
 
 =head1 METHODS
 
-=head2 get( $key )
+=head2 get( $key , [ $id )
 
-=head2 set( $key, $value )
+=head2 set( $key, $value , [ $id )
 
-=head2 delete ( $key )
+=head2 delete ( $key , [ $id )
 
 =head1 AUTHOR
 

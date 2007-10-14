@@ -31,11 +31,11 @@ You must have get ,set ,delete methods for your storage module. Read L<Cache::Fu
 
 =head1 METHODS
 
-=head2 get( $key )
+=head2 get( $key [ ,$id ] )
 
-=head2 set( $key, $value )
+=head2 set( $key, $value [, $id ] )
 
-=head2 delete( $key )
+=head2 delete( $key [ , $id ] )
 
 =head1 SEE ALSO
 

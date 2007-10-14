@@ -1,32 +1,14 @@
----
-name: Cache-Funky
-version: 0.0.5
-author:
-  - 'Masahiro Funakoshi <masap@cpan.org>'
-abstract: 'How is simple, convenient cache module?'
-license: perl
-resources:
-  license: http://dev.perl.org/licenses/
+# http://module-build.sourceforge.net/META-spec.html
+#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
+name:         Cache-Funky
+version:      0.06
+version_from: lib/Cache/Funky.pm
+installdirs:  site
 requires:
-  Class::Accessor::Fast: 0
-  Test::More: 0
-  UNIVERSAL::require: 0
-  version: 0
-provides:
-  Cache::Funky:
-    file: lib/Cache/Funky.pm
-    version: !!perl/hash:version
-      original: 0.0.5
-      qv: 1
-      version:
-        - 0
-        - 0
-        - 5
-  Cache::Funky::Storage:
-    file: lib/Cache/Funky/Storage.pm
-  Cache::Funky::Storage::Simple:
-    file: lib/Cache/Funky/Storage/Simple.pm
-generated_by: Module::Build version 0.2805
-meta-spec:
-  url: http://module-build.sourceforge.net/META-spec-v1.2.html
-  version: 1.2
+    Class::Accessor::Fast:         0
+    Test::More:                    0
+    UNIVERSAL::require:            0
+    version:                       0
+
+distribution_type: module
+generated_by: ExtUtils::MakeMaker version 6.30
